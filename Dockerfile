@@ -2,13 +2,13 @@
 FROM python:3.11
 
 # Set the working directory to /
-WORKDIR /
+WORKDIR /app
 
 # Install Git to clone the repository
 RUN apt-get update && apt-get install -y git
 
 # Clone the GitHub repository into the container
-RUN git clone https://github.com/Topi-Batu/ml-deployment .
+RUN git clone https://github.com/Topi-Batu/ml-deployment /app
 
 # Install any needed packages specified in requirements.txt
 RUN pip install --no-cache-dir -r requirements.txt
