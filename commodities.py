@@ -1,6 +1,3 @@
-import tensorflow as tf
-import numpy as np
-import pandas as pd
 from utils import util
 
 def cabai_rawit_merah(num_prediction):
