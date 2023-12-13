@@ -84,5 +84,4 @@ def util(dataset_name, model_name, num_prediction):
     # Combine dates and numbers into a dictionary
     data = {str(date.date()): str(number) for date, number in zip(date_range, predictions)}
 
-    print(data)
     return data
