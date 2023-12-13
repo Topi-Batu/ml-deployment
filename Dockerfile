@@ -14,7 +14,7 @@ RUN git clone https://github.com/Topi-Batu/ml-deployment .
 RUN pip install --no-cache-dir -r requirements.txt
 
 # Expose a port if your application requires it
-EXPOSE 5000
+EXPOSE 80
 
 # Run your application
 CMD ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "80"]
