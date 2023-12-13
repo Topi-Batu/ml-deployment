@@ -1,8 +1,8 @@
 # Use an official Python runtime as a parent image
 FROM python:3.11
 
-# Set the working directory to /app
-WORKDIR /app
+# Set the working directory to /
+WORKDIR /
 
 # Install Git to clone the repository
 RUN apt-get update && apt-get install -y git
