@@ -46,7 +46,7 @@ def util(dataset_name, model_name, num_prediction):
 
     # ======================================================================= #
     # Load model
-    model = tf.keras.models.load_model(f'models\{model_name}.h5')
+    model = tf.keras.models.load_model(f'models/{model_name}.h5')
 
     # ======================================================================= #
     # Predict
