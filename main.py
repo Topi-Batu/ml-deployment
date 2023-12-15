@@ -1,5 +1,5 @@
 from fastapi import FastAPI
-from commodities import cabai_rawit_merah
+from commodities import cabai_rawit_merah, beras_medium
 
 app = FastAPI()
 
@@ -12,5 +12,5 @@ def cabai_rawit_merah_prediction(num_prediction: int):
     return cabai_rawit_merah(num_prediction=num_prediction)
 
 @app.get("/beras-medium/{num_prediction}")
-def beras-medium(num_prediction: int):
-    return beras-medium(num_prediction=num_prediction)
+def beras_medium_prediction(num_prediction: int):
+    return beras_medium(num_prediction=num_prediction)
