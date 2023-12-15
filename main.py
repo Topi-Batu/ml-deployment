@@ -10,3 +10,7 @@ def read_root():
 @app.get("/cabai-rawit-merah/{num_prediction}")
 def cabai_rawit_merah_prediction(num_prediction: int):
     return cabai_rawit_merah(num_prediction=num_prediction)
+
+@app.get("/beras-medium/{num_prediction}")
+def beras-medium(num_prediction: int):
+    return beras-medium(num_prediction=num_prediction)
