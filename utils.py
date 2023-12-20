@@ -7,6 +7,7 @@ from fastapi import HTTPException
 import os
 from io import StringIO, BytesIO
 import requests
+import tempfile
 
 storage_uri = os.getenv('STORAGE_URI')
 connection_string = os.getenv('DATABASE_URI')
@@ -174,8 +175,25 @@ def util_dua(commodity_id, num_prediction):
     # Load model
     response_model = requests.get(f'{storage_uri}{used_model}', verify=False)
     model_content = BytesIO(response_model.content)
-    # model_path = get_file(f'{commodity_id}.h5', origin=model_url, verify=False)
-    model = tf.keras.models.load_model(model_content)
+    if response_model.status_code == 200:
+        # Use BytesIO to read the content as a binary file-like object
+        model_content = BytesIO(response_model.content)
+
+        # Create a temporary file
+        with tempfile.NamedTemporaryFile(delete=False, suffix=".h5") as temp_file:
+            temp_file.write(model_content.read())
+            temp_file_path = temp_file.name
+
+        # Load the model from the temporary file
+        model = tf.keras.models.load_model(temp_file_path)
+
+        # Clean up: Delete the temporary file
+        os.remove(temp_file_path)
+
+    # response_model = requests.get(f'{storage_uri}{used_model}', verify=False)
+    # model_content = BytesIO(response_model.content)
+    # # model_path = get_file(f'{commodity_id}.h5', origin=model_url, verify=False)
+    # model = tf.keras.models.load_model(model_content)
 
     # ======================================================================= #
     # Predict
