@@ -5,7 +5,7 @@ import pyodbc
 from tensorflow.keras.utils import get_file
 from fastapi import HTTPException
 import os
-from io import StringIO
+from io import StringIO, BytesIO
 import requests
 
 storage_uri = os.getenv('STORAGE_URI')
@@ -132,9 +132,9 @@ def util_dua(commodity_id, num_prediction):
     used_dataset = get_dataset(commodity_id)
     used_model = get_model(commodity_id)
     # ds_komoditas = dataset_name
-    response = requests.get(f'{storage_uri}{used_dataset}', verify=False)
+    response_dataset = requests.get(f'{storage_uri}{used_dataset}', verify=False)
 
-    df = pd.read_csv(StringIO(response.text))
+    df = pd.read_csv(StringIO(response_dataset.text))
     df['Date']=pd.to_datetime(df['Date'], format='%Y-%m-%d')
     last_date = df['Date'].iloc[-1]
     # set the Date column be the index of our dataset
@@ -172,9 +172,10 @@ def util_dua(commodity_id, num_prediction):
 
     # ======================================================================= #
     # Load model
-    model_url = f'{storage_uri}{used_model}'
-    model_path = get_file(f'{commodity_id}.h5', origin=model_url, verify=False)
-    model = tf.keras.models.load_model(model_path)
+    response_model = requests.get(f'{storage_uri}{used_model}', verify=False)
+    model_content = BytesIO(response_model.content)
+    # model_path = get_file(f'{commodity_id}.h5', origin=model_url, verify=False)
+    model = tf.keras.models.load_model(model_content)
 
     # ======================================================================= #
     # Predict
