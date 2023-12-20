@@ -171,7 +171,7 @@ def util_dua(commodity_id, num_prediction):
     # ======================================================================= #
     # Load model
     model_url = f'{storage_uri}{used_model}'
-    model_path = get_file(f'{commodity_id}.h5', origin=model_url)
+    model_path = get_file(f'{commodity_id}.h5', origin=model_url, verify=False)
     model = tf.keras.models.load_model(model_path)
 
     # ======================================================================= #
