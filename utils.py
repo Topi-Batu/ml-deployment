@@ -5,6 +5,8 @@ import pyodbc
 from tensorflow.keras.utils import get_file
 from fastapi import HTTPException
 import os
+from io import StringIO
+import requests
 
 storage_uri = os.getenv('STORAGE_URI')
 connection_string = os.getenv('DATABASE_URI')
@@ -130,9 +132,9 @@ def util_dua(commodity_id, num_prediction):
     used_dataset = get_dataset(commodity_id)
     used_model = get_model(commodity_id)
     # ds_komoditas = dataset_name
-    print(used_dataset)
+    response = requests.get(f'{storage_uri}{used_dataset}', verify=False)
 
-    df = pd.read_csv(f'{storage_uri}{used_dataset}', verify=False)
+    df = pd.read_csv(StringIO(response.text))
     df['Date']=pd.to_datetime(df['Date'], format='%Y-%m-%d')
     last_date = df['Date'].iloc[-1]
     # set the Date column be the index of our dataset
