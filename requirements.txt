@@ -3,3 +3,4 @@ pandas
 tensorflow==2.15.0
 fastapi
 uvicorn
+pyodbc

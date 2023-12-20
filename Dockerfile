@@ -5,7 +5,14 @@ FROM python:3.10
 WORKDIR /app
 
 # Install Git to clone the repository
-RUN apt-get update && apt-get install -y git
+RUN apt-get update \
+    && apt-get install -y git
+
+# Install ODBC drivers for SQL Server
+RUN apt-get install -y --no-install-recommends \
+    unixodbc \
+    unixodbc-dev \
+    && rm -rf /var/lib/apt/lists/*
 
 # Clone the GitHub repository into the container
 RUN git clone https://github.com/Topi-Batu/ml-deployment /app
