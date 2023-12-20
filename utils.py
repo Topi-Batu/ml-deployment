@@ -132,7 +132,7 @@ def util_dua(commodity_id, num_prediction):
     # ds_komoditas = dataset_name
     print(used_dataset)
 
-    df = pd.read_csv(f'{storage_uri}{used_dataset}')
+    df = pd.read_csv(f'{storage_uri}{used_dataset}', verify=False)
     df['Date']=pd.to_datetime(df['Date'], format='%Y-%m-%d')
     last_date = df['Date'].iloc[-1]
     # set the Date column be the index of our dataset
