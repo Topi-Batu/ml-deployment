@@ -142,7 +142,6 @@ def util_dua(commodity_id, num_prediction):
     # ======================================================================= #
     # Nama file dataset
     # used_dataset = get_dataset(commodity_id)
-    # used_model = get_model(commodity_id)
     # response_dataset = requests.get(f'{storage_uri}{used_dataset}', verify=False)
 
     # df = pd.read_csv(StringIO(response_dataset.text))
@@ -184,6 +183,7 @@ def util_dua(commodity_id, num_prediction):
 
     # ======================================================================= #
     # Load model
+    used_model = get_model(commodity_id)
     response_model = requests.get(f'{storage_uri}{used_model}', verify=False)
     model_content = BytesIO(response_model.content)
     if response_model.status_code == 200:
