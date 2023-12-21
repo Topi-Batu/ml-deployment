@@ -33,6 +33,17 @@ def get_dataset(commodity_id):
     except Exception as e:
             raise HTTPException(status_code=500, detail=str(e))
     
+def get_dataset_db(commodity_id):
+    try:
+        get_dataset_db_query = "SELECT p.Date, p.Price FROM Predictions p WHERE p.CommodityId = ? ORDER BY p.Date ASC"
+        cursor.execute(get_dataset_db_query, commodity_id)
+        get_dataset_db_results = cursor.fetchall()
+        columns = [column[0] for column in cursor.description]
+        df = pd.DataFrame.from_records(get_dataset_db_results, columns=columns)
+        return df
+    except Exception as e:
+            raise HTTPException(status_code=500, detail=str(e))
+    
 def get_model(commodity_id):
     try:
         get_model_query = "SELECT pm.ModelLink FROM PredictionModels pm WHERE pm.IsUsed = 1 AND pm.CommodityId = ?"
@@ -130,12 +141,12 @@ def util_dua(commodity_id, num_prediction):
 
     # ======================================================================= #
     # Nama file dataset
-    used_dataset = get_dataset(commodity_id)
-    used_model = get_model(commodity_id)
-    # ds_komoditas = dataset_name
-    response_dataset = requests.get(f'{storage_uri}{used_dataset}', verify=False)
+    # used_dataset = get_dataset(commodity_id)
+    # used_model = get_model(commodity_id)
+    # response_dataset = requests.get(f'{storage_uri}{used_dataset}', verify=False)
 
-    df = pd.read_csv(StringIO(response_dataset.text))
+    # df = pd.read_csv(StringIO(response_dataset.text))
+    df = get_dataset_db(commodity_id)
     df['Date']=pd.to_datetime(df['Date'], format='%Y-%m-%d')
     last_date = df['Date'].iloc[-1]
     # set the Date column be the index of our dataset
